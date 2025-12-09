@@ -1,0 +1,16 @@
+# 가상 환경 폴더 (Python Virtual Environment)
+venv/
+.venv/
+
+# Python 파일 및 폴더
+__pycache__/
+*.pyc
+*.o
+*.so
+
+# 데이터베이스 파일 (SQLite)
+*.sqlite
+*.db
+
+# 환경 설정 파일 (민감 정보 포함 가능성)
+.env
