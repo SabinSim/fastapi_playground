@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🇨🇭 Swiss Rent Affordability Analyzer</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; background-color: #f4f4f9; }
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { color: #d93025; text-align: center; } /* Swiss Red */
+        input, select { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;}
+        button { width: 100%; padding: 12px; background-color: #d93025; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
+        button:hover { background-color: #b0231a; }
+        .result { margin-top: 20px; padding: 15px; background-color: #e8f5e9; border-radius: 5px; border-left: 5px solid #2e7d32; }
+        .danger { background-color: #ffebee; border-left-color: #c62828; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🇨🇭 Swiss Rent Analyzer</h1>
+        <p>Can I afford this apartment with my salary?</p>
+        
+        <form action="/calculate_ui" method="post">
+            <label>💰 Annual Gross Salary (in CHF)</label>
+            <input type="number" name="gross_annual_salary" placeholder="e.g., 85000" required value="{{ request.form.gross_annual_salary if request else '' }}">
+            
+            <label>🏠 Monthly Rent (in CHF)</label>
+            <input type="number" name="monthly_rent" placeholder="e.g., 1500" required value="{{ request.form.monthly_rent if request else '' }}">
+            
+            <label>📍 Region (Canton)</label>
+            <select name="canton">
+                <option value="ZH">Zürich (ZH)</option>
+                <option value="BE">Bern (BE)</option>
+                <option value="GE">Geneva (GE)</option>
+                <option value="GR">Graubünden (GR)</option> </select>
+            
+            <button type="submit">Analyze</button>
+        </form>
+
+        {% if result %}
+        <div class="result {% if not result.is_affordable %}danger{% endif %}">
+            <h3>Analysis Result:</h3>
+            <p style="font-size: 1.1em;"><strong>{{ result.message }}</strong></p>
+            
+            <hr style="border: 1px dashed #ccc; margin: 15px 0;">
+            
+            <div style="display: flex; justify-content: space-between;">
+                <span>➕ Monthly Gross Income:</span>
+                <span>{{ result.monthly_gross_income }} CHF</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: #d93025;">
+                <span>➖ Deductions (Tax/Social):</span>
+                <span>- {{ result.social_security_deduction }} CHF</span>
+            </div>
+            
+            <hr style="border: 1px solid #aaa; margin: 10px 0;">
+            
+            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.1em;">
+                <span>💰 Estimated Net Income:</span>
+                <span>= {{ result.monthly_net_income }} CHF</span>
+            </div>
+        </div>
+        {% endif %}
+</body>
+</html>
