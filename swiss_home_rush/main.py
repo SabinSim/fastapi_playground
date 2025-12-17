@@ -34,21 +34,21 @@ Base.metadata.create_all(bind=engine)
 # ---------------------------------------------------------
 app = FastAPI()
 
-# Allow CORS for all domains / 모든 도메인에 대해 CORS 허용
+# Allow CORS for all domains / 모든 도메인에 대해 CORS 허용  middleware(경비원)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],    # Allow all origins / 모든 주소 허용
+    allow_origins=["*"],    # Allow all origins / 모든 주소 허용(누구든지 와라)
     allow_credentials=True,
-    allow_methods=["*"],    # Allow all methods / 모든 HTTP 메서드 허용
+    allow_methods=["*"],    # Allow all methods / 모든 HTTP 메서드 허용  (CUSD 모든 종류가능)
     allow_headers=["*"],    # Allow all headers / 모든 헤더 허용
 )
 
 # Dependency to get DB session / DB 세션을 가져오는 의존성 함수
-def get_db():
+def get_db():   # 공구빌려줘
     db = SessionLocal()
-    try:
-        yield db
-    finally:
+    try:    # 모슨일이 있어도 작업 끝나면 닫아라
+        yield db   
+    finally:   
         db.close()
 
 # ---------------------------------------------------------

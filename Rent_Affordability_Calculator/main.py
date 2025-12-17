@@ -12,7 +12,7 @@ app = FastAPI(title="Swiss Rent Affordability Calculator UI")
 templates = Jinja2Templates(directory="templates")
 
 # 1. Display the main screen (GET endpoint)
-@app.get("/", response_class=HTMLResponse, summary="Display Rent Analyzer UI")
+@app.get("/", response_class=HTMLResponse, summary="Display Rent Analyzer UI")    # 웹주소+/ 에들어가면 HTML에있는 UI를 불러오고 summary 문서상 확인 함 그리고 템플릿인 index를 반환하기 
 def read_root(request: Request):
     """
     Renders the main HTML page ('index.html').

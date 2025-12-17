@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🚄 Swiss Commute Score</title>
+    <style>
+        /* 기본 스타일 설정 / Basic Style Setup */
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; margin-top: 50px; }
+        .card { background: white; width: 400px; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { color: #d93025; text-align: center; margin-bottom: 30px; } /* SBB Red */
+        
+        label { font-weight: bold; display: block; margin-top: 15px; color: #333; }
+        input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        
+        button { width: 100%; margin-top: 25px; padding: 12px; background-color: #d93025; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; transition: background 0.2s; }
+        button:hover { background-color: #b0231a; }
+
+        /* 결과 박스 스타일 / Result Box Style */
+        .result-box { margin-top: 30px; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border-left: 5px solid #ccc; }
+        .score-A { border-left-color: #2ecc71; background-color: #e8f8f5; } /* Green */
+        .score-B { border-left-color: #3498db; background-color: #ebf5fb; } /* Blue */
+        .score-C { border-left-color: #f1c40f; background-color: #fef9e7; } /* Yellow */
+        .score-D { border-left-color: #e74c3c; background-color: #fdedec; } /* Red */
+        
+        .route-info { font-size: 0.9em; color: #666; margin-bottom: 10px; }
+        .duration { font-size: 2em; font-weight: bold; color: #333; }
+        .message { font-style: italic; margin-top: 10px; color: #555; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🚄 Commute Check</h1>
+        <form action="/calculate_ui" method="post">
+            <label>🏠 Home Address (Station)</label>
+            <input type="text" name="home" placeholder="e.g. Zurich HB" required 
+                   value="{{ home_input if home_input else '' }}">
+            
+            <label>🏢 Work Address (Station)</label>
+            <input type="text" name="work" placeholder="e.g. Bern" required 
+                   value="{{ work_input if work_input else '' }}">
+            
+            <button type="submit">Check Time</button>
+        </form>
+
+        {% if result %}
+        <div class="result-box score-{{ result.score }}">
+            <div class="route-info">
+                {{ result.from }} ➡️ {{ result.to }} <br>
+                (Transfers: {{ result.transfers }})
+            </div>
+            <div class="duration">
+                ⏱️ {{ result.duration_min }} min
+            </div>
+            <h3>Grade: {{ result.score }}</h3>
+            <div class="message">"{{ result.message }}"</div>
+        </div>
+        {% endif %}
+        
+        {% if error %}
+        <div class="result-box score-D">
+            <div class="message">{{ error }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
