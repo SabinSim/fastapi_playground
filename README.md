@@ -20,7 +20,7 @@ This repository serves as a playground for mastering **FastAPI**, **PostgreSQL**
 | :--- | :--- | :--- | :--- |
 | **1** | **The Relocation Checklist** | CRUD, Auth (JWT), SQLite | ✅ **Completed** |
 | **2** | **Rent Affordability Analyzer** | Business Logic, Service Layer, Pydantic | ✅ **Completed** |
-| **3** | **Commute Score (SBB)** | External API (Async/Await), Env Vars | 🟡 Planned |
+| **3** | **Commute Score (SBB)** | External API (Async/Await), Env Vars | ✅ **Completed**  |
 | **4** | **Document Vault** | File Uploads, OCR, Background Tasks, Docker | 🟡 Planned |
 | **5** | **Viewing Slot War** | Concurrency, Redis, Distributed Locking | 🟡 Planned |
 
