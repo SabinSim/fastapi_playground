@@ -1,7 +1,3 @@
-
-
-### 📄 README.md
-
 # 🏦 Swiss Document Vault
 
 > **"From Physical Binders to Digital Cloud"**
