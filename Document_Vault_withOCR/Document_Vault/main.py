@@ -3,7 +3,7 @@ import os
 import pytesseract  
 from PIL import Image   
 
-# FastAPI 핵심 라이브러리
+
 from fastapi import ( 
     FastAPI, UploadFile, File, Depends, 
     BackgroundTasks, Request, Form
