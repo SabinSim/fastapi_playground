@@ -9,6 +9,6 @@ class UserDocument(Base):
     filename = Column(String, index=True)
     filepath = Column(String)
     content_type = Column(String)
-    # OCR로 읽은 텍스트를 저장할 칸 (추가됨)
+  
     extracted_text = Column(Text, nullable=True)
     upload_date = Column(DateTime(timezone=True), server_default=func.now())
