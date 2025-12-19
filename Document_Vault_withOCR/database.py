@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# 도커에서 실행 중인 DB 주소
+
 SQLALCHEMY_DATABASE_URL = "postgresql://admin:password123@localhost:5432/swiss_home"
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
