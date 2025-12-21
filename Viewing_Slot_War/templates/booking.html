@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🔥 Booking War</title>
+    <style>
+        body { font-family: sans-serif; background-color: #2c3e50; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); text-align: center; width: 400px; }
+        h1 { color: #e74c3c; margin-bottom: 10px; }
+        p { color: #555; font-size: 1.1em; }
+        .slots { font-weight: bold; font-size: 2em; color: #2ecc71; margin: 20px 0; }
+        button { width: 100%; padding: 15px; font-size: 1.2em; font-weight: bold; color: white; background-color: #3498db; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+        button:hover { background-color: #2980b9; }
+        button:disabled { background-color: #95a5a6; cursor: not-allowed; }
+        #result { margin-top: 20px; font-weight: bold; min-height: 20px; }
+        .success { color: #27ae60; }
+        .fail { color: #c0392b; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🏠 Viewing Day</h1>
+        <h2>{{ prop.name }}</h2>
+        <p>{{ prop.description }}</p>
+        <div class="slots">Max Slots: <span id="max-slots">{{ prop.max_slots }}</span></div>
+        
+        <button id="bookBtn" onclick="tryBooking()">Reserve Viewing Slot 👆</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function tryBooking() {
+            const btn = document.getElementById("bookBtn");
+            const resultDiv = document.getElementById("result");
+            
+            btn.disabled = true;
+            btn.innerText = "Processing...";
+            resultDiv.innerHTML = "";
+
+            try {
+                // 아직 안 만든 주소지만 미리 적어둡니다.
+                const response = await fetch("/booking/reserve", { method: "POST" });
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `<span class="success">🎉 Success! ID: ${data.booking_id}</span>`;
+                } else {
+                    resultDiv.innerHTML = `<span class="fail">😭 ${data.detail}</span>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="fail">❌ Server Error</span>`;
+            } finally {
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerText = "Reserve Viewing Slot 👆";
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>
