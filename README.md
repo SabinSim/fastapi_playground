@@ -22,7 +22,7 @@ This repository serves as a playground for mastering **FastAPI**, **PostgreSQL**
 | **2** | **Rent Affordability Analyzer** | Business Logic, Service Layer, Pydantic | ✅ **Completed** |
 | **3** | **Commute Score (SBB)** | External API (Async/Await), Env Vars | ✅ **Completed**  |
 | **4** | **Document Vault** | File Uploads, OCR, Background Tasks, Docker | ✅ **Completed**  |
-| **5** | **Viewing Slot War** | Concurrency, Redis, Distributed Locking | 🟡 Planned |
+| **5** | **Viewing Slot War** | Concurrency, Redis, Distributed Locking | ✅ **Completed**  |
 
 ---
 
