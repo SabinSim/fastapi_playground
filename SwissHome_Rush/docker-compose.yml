@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # 1. 데이터베이스 서비스
+  db:
+    image: postgres:15-alpine
+    container_name: swiss_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: swiss_home
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. 웹 서버 서비스
+  web:
+    build: .
+    container_name: swiss_app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
