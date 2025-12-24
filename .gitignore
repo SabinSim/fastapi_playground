@@ -1,16 +1,18 @@
-# 가상 환경 폴더 (Python Virtual Environment)
-venv/
-.venv/
 
-# Python 파일 및 폴더
+# 파이썬 컴파일 파일 (지저분함)
 __pycache__/
-*.pyc
-*.o
-*.so
+*.py[cod]
 
-# 데이터베이스 파일 (SQLite)
-*.sqlite
-*.db
+# 맥북 시스템 파일 (남들이 보면 싫어함)
+.DS_Store
 
-# 환경 설정 파일 (민감 정보 포함 가능성)
+# 도커 DB 데이터 (용량이 크고 보안상 올리면 안 됨)
+postgres_data/
+
+# 가상환경 (만약 있다면)
+.venv/
+venv/
+env/
+
+# 환경설정 파일 (비밀번호 등)
 .env
