@@ -2,18 +2,27 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# [DB 연결 주소]
-# 'db'는 docker-compose에서 이름 정의함
-# 내부에서느 IP대신 이 이름으로 서로 찾음
+# [ENG] Database URL
+# [KOR] 데이터베이스 연결 주소
 SQLALCHEMY_DATABASE_URL = "postgresql://admin:password@db:5432/swiss_home"
 
-# 엔진 생성 (누가 API로 요청 할때마다 DB연결을 새로 하나씩 해주는 공장)
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+# [ENG] Create Database Engine with increased pool size for the "War"
+# [KOR] 전쟁(동시 접속)을 대비해 커넥션 풀 크기를 20으로 늘립니다.
+# (기본값은 5라서, 15명이 동시에 오면 에러가 납니다)
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL,
+    pool_size=20,      # [NEW] 한 번에 20명까지 입장 가능
+    max_overflow=0,    # [NEW] 추가 예비 인원은 두지 않음
+    pool_timeout=30    # [NEW] 자리가 없으면 30초까지 대기
+)
 
-# 세션 공장 (요청이 올때마다 연결을 생성해줌)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# 모든 모델(Table)의 부모 클래스 
-# Table 은 데이터를 저장하는 엑셀 시트와 같음 
-# Base 는 엑셀 시트를 코드로 만들기 위한 기준점
 Base = declarative_base()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
