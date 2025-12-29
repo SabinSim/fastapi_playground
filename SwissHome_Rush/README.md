@@ -63,6 +63,43 @@ To solve this, I implemented **Pessimistic Locking** (specifically `SELECT ... F
 
 ---
 
+## 🛤️ Development Journey (From Phase 1 to 5)
+
+This project was not built in a day. It evolved through 5 specific phases to identify and solve the concurrency problem.
+
+### **Phase 1: The Foundation**
+* **Goal:** Build a basic web server.
+* **Stack:** FastAPI + Jinja2 Templates (HTML).
+* **Status:** A static website that displays property information. No database, no booking logic.
+
+### **Phase 2: Database Integration**
+* **Goal:** Persist data using a robust RDBMS.
+* **Action:** Integrated **PostgreSQL** and containerized the environment using **Docker Compose**.
+* **Status:** Users can click "Book," and data is saved to the DB. However, there is no protection against multiple users booking at once.
+
+### **Phase 3: The Attack Simulation (Vulnerability Discovery)** 💥
+* **Goal:** Test if the system can handle high traffic.
+* **Action:** Created a script (`attack.py`) to simulate **15 users** clicking the book button simultaneously for a property with only **5 slots**.
+* **Result (FAILURE):** The system failed. All 15 users succeeded in booking, resulting in **15/5 bookings (Severe Overbooking).** This confirmed the existence of a **Race Condition**.
+
+### **Phase 4: The Defense (Concurrency Control)** 🛡️
+* **Goal:** Fix the race condition.
+* **Action:** Implemented **Pessimistic Locking** (`SELECT ... FOR UPDATE`) in the transaction logic.
+    1.  Lock the property row.
+    2.  Check the current count.
+    3.  If `count < 5`, Insert Booking -> Commit.
+    4.  Else, Rollback.
+* **Result (SUCCESS):** Even with the same 15-user attack, the system accurately recorded **only 5 bookings** and rejected the other 10.
+
+### **Phase 5: Visualization & UI Logic** 📊
+* **Goal:** Improve User Experience based on backend status.
+* **Action:** Updated the frontend (`booking.html`) to read the real-time slot count.
+* **Result:**
+    * **Progress Bar:** Fills up as bookings increase.
+    * **Sold Out Logic:** When slots reach 5/5, the button is automatically disabled and turns gray ("Sold Out").
+
+---
+
 ## 🏗️ System Architecture & Project Structure
 
 The project is fully containerized using Docker to ensure a consistent development environment.
